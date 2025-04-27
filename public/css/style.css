@@ -1,7 +1,7 @@
-body {
-  font-family: sans-serif;
-  margin: 20px;
-}
-h1 {
-  color: teal;
+:root {
+  --color-cambridge-blue: #79b791;
+  --color-celadon: #abd1b5;
+  --color-mint-cream: #edf4ed;
+  --color-caput-mortuum: #51291e;
+  --color-black-bean: #301014;
 }

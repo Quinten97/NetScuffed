@@ -19,7 +19,7 @@ app.get("/about", (req, res) => {
 
 // Route: Contact page
 app.get("/contact", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "contact.html"));
+  res.sendFile(path.join(__dirname, "views", "lldp.html"));
 });
 
 app.listen(PORT, () => {
