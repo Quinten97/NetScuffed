@@ -13,12 +13,12 @@ app.get("/", (req, res) => {
 });
 
 // Route: About page
-app.get("/about", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "about.html"));
+app.get("/wifi", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "wifi.html"));
 });
 
 // Route: Contact page
-app.get("/contact", (req, res) => {
+app.get("/lldp", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "lldp.html"));
 });
 
