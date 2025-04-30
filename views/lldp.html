@@ -10,12 +10,14 @@
   <body>
     <a href="/" id="backbutton">Back</a>
     <header>LLDP</header>
-    <button id="start-lldp">Start Scan</button>
+    <button id="start-lldp" onclick="lldpScan()">Start Scan</button>
     <div id="lldp-container">
-      <p>Device Name:</p>
-      <p>Port ID:</p>
-      <p>Speed:</p>
-      <p>Duplex Mode:</p>
+      <p id="device-name">Device Name:</p>
+      <p id="device-port">Port ID:</p>
+      <p id="device-MAC">Chassis ID:</p>
+      <p id="device-speed">Speed:</p>
+      <p id="device-duplex">Duplex Mode:</p>
     </div>
+    <script src="/js/lldp.js"></script>
   </body>
 </html>
