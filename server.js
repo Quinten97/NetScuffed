@@ -42,9 +42,11 @@ app.get("/lldp-scan", (req, res) => {
     try {
       const data = JSON.parse(stdout);
       res.json(data);
+      console.log("lldp scan complete: success");
     } catch (e) {
       console.error("Failed to parse output:", stdout);
       res.status(500).json({ error: "Invalid script output" });
+      console.log("lldp scan complete: failed or partially failed");
     }
   });
 });

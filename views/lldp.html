@@ -11,6 +11,9 @@
     <a href="/" id="backbutton">Back</a>
     <header>LLDP</header>
     <button id="start-lldp" onclick="lldpScan()">Start Scan</button>
+    <div id="loading-indicator" style="font-family: monospace; display: none">
+      Loading |
+    </div>
     <div id="lldp-container">
       <p id="device-name">Device Name:</p>
       <p id="device-port">Port ID:</p>
@@ -18,6 +21,10 @@
       <p id="device-speed">Speed:</p>
       <p id="device-duplex">Duplex Mode:</p>
     </div>
+    <div
+      id="loading-indicator"
+      style="font-family: monospace; display: none; margin-top: 1em"
+    ></div>
     <script src="/js/lldp.js"></script>
   </body>
 </html>
