@@ -4,9 +4,9 @@ const startSpinner = () => {
   const spinnerFrames = ["|", "/", "-", "\\"];
   let index = 0;
   const spinnerElement = document.getElementById("loading-indicator");
-  spinnerElement.style.display = "inline";
+  spinnerElement.style.display = "block";
   spinnerInterval = setInterval(() => {
-    spinnerElement.innerText = `Loading ${spinnerFrames[index]}`;
+    spinnerElement.innerText = spinnerFrames[index];
     index = (index + 1) % spinnerFrames.length;
   }, 150);
 };
