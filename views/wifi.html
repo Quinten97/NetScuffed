@@ -12,11 +12,13 @@
       <a href="/" id="backbutton">Back</a>
       WiFi
     </header>
-    <button id="start-wifi" onclick="wifiscan()">Start Scan</button>
-    <div id="loading-indicator" style="font-family: monospace; display: none">
-      |
+    <div class="network-page">
+      <button id="start-wifi" onclick="wifiscan()">Start Scan</button>
+      <div id="loading-indicator" style="font-family: monospace; display: none">
+        |
+      </div>
+      <div id="networks-container"></div>
     </div>
-    <div id="networks-container"></div>
     <script src="/js/wifi.js"></script>
   </body>
 </html>
