@@ -9,5 +9,34 @@
   </head>
   <body>
     <header><a href="/" id="backbutton">Back</a> Speedtest</header>
+    <button class="button" onclick="startSpeedTest()">Start Test</button>
+    <div id="loading-indicator" style="font-family: monospace; display: none">
+      |
+    </div>
+     <section class="results">
+    <div class="group">
+      <h2>Speed</h2>
+      <p><strong>Download:</strong> <span id="download">--</span></p>
+      <p><strong>Upload:</strong> <span id="upload">--</span></p>
+    </div>
+
+    <div class="group">
+      <h2>Latency</h2>
+      <p><strong>Ping:</strong> <span id="ping">--</span></p>
+      <p><strong>Packet Loss:</strong> <span id="packetLoss">--</span></p>
+    </div>
+
+    <div class="group">
+      <h2>Network</h2>
+      <p><strong>ISP:</strong> <span id="isp">--</span></p>
+      <p><strong>Server:</strong> <span id="server">--</span></p>
+    </div>
+
+    <div class="group">
+      <h2>Location</h2>
+      <p><strong>City/Region:</strong> <span id="location">--</span></p>
+      <p><strong>Country:</strong> <span id="country">--</span></p>
+    </div>
+    <script src="js/speedtest.js"></script>
   </body>
 </html>

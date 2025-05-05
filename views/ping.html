@@ -8,6 +8,30 @@
     <link rel="stylesheet" href="/css/ping.css" />
   </head>
   <body>
-    <header><a href="/" id="backbutton">Back</a> Ping/Traceroute</header>
+    <header><a href="/" id="backbutton">Back</a> Ping/Tracert</header>
+    <div class="container">
+      <input type="text" id="target" placeholder="Enter IP or hostname..." />
+
+      <button id="runBtn">Start Scan</button>
+      <div id="loading-indicator" style="font-family: monospace; display: none">
+        |
+      </div>
+
+      <div class="panel" id="pingPanel">
+        <h2>Ping Results</h2>
+        <div class="metric">Response Time: <span id="pingTime">--</span></div>
+        <div class="metric">Packet Loss: <span id="packetLoss">--</span></div>
+      </div>
+
+      <div class="panel" id="tracePanel">
+        <h2>Traceroute</h2>
+        <div class="metric">Hop Count: <span id="hopCount">--</span></div>
+        <div class="metric">Hops:</div>
+        <ul id="hopsList" style="padding-left: 1rem; list-style: disc">
+          <!-- Populated dynamically -->
+        </ul>
+      </div>
+    </div>
+    <script src="/js/ping.js"></script>
   </body>
 </html>

@@ -1,26 +1,34 @@
-#start-wifi {
-  height: 10%;
-  width: 100%;
-  margin-top: 2rem;
-}
-
 .network-page {
-  margin: 0 auto;
+  margin: 2rem auto;
   max-width: 768px;
   width: 100%;
   height: 80%;
 }
 
+#start-wifi {
+  width: 95%;
+  margin: auto;
+  display: block;
+  padding: 0.75rem;
+  background: var(--color-cambridge-blue);
+  color: var(--color-mint-cream);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
 #networks-container {
   padding: 1rem;
   font-family: sans-serif;
+  color: var(--color-black-bean);
 }
 
 .network {
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 0.75rem;
-  background-color: #f9f9f9;
+  background-color: var(--color-celadon);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   font-size: 1rem;
   line-height: 1.5;
@@ -46,11 +54,4 @@
   height: 100%;
   transition: width 0.3s ease;
   border-radius: 6px;
-}
-
-#loading-indicator {
-  width: 100%;
-  text-align: center;
-  font-size: 1.5rem;
-  padding: 1rem;
 }

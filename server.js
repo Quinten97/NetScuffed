@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const os = require("os");
 const { execFile } = require("child_process");
+const speedTest = require("speedtest-net");
+const { stat } = require("fs");
 
 const app = express();
 const PORT = 3000;
@@ -9,6 +11,7 @@ const devmode = true;
 
 // Serve static files from /public
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
 
 //start kiosk-------------------------------------------------------------------------->
 const powershellPath =
@@ -110,8 +113,60 @@ app.get("/ping", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "ping.html"));
 });
 
+app.post("/network-check", (req, res) => {
+  console.log("starting ping/trace");
+  const target = req.body.ip;
+  if (!target) return res.status(400).json({ error: "Target is required" });
+
+  const isWindows = process.platform === "win32";
+  const scriptPath = isWindows
+    ? path.join(__dirname, "scripts/ping_trace.ps1")
+    : path.join(__dirname, "scripts/ping_trace.sh");
+
+  const args = [target];
+
+  execFile(
+    isWindows ? "powershell.exe" : "bash",
+    [scriptPath, ...args],
+    (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Execution error: ${error}`);
+        return res
+          .status(500)
+          .json({ error: "Script execution failed", details: stderr });
+      }
+
+      try {
+        const output = JSON.parse(stdout);
+        res.json(output);
+      } catch (e) {
+        res.status(500).json({ error: "Invalid script output", raw: stdout });
+      }
+    }
+  );
+});
+
 app.get("/speedtest", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "speedtest.html"));
+});
+
+app.get("/speedtest-result", async (req, res) => {
+  console.log("starting speedtest");
+  try {
+    const result = await speedTest({ acceptLicense: true, acceptGdpr: true });
+    res.json({
+      download: ((result.download.bandwidth * 8) / 1_000_000).toFixed(2),
+      upload: ((result.upload.bandwidth * 8) / 1_000_000).toFixed(2),
+      ping: result.ping.latency,
+      packetLoss: result.packetLoss,
+      isp: result.isp,
+      server: result.server.name,
+      location: result.server.location,
+      country: result.server.country,
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 app.get("/nmap", (req, res) => {
