@@ -9,7 +9,7 @@
   </head>
   <body>
     <header><a href="/" id="backbutton">Back</a> LLDP</header>
-    <button id="start-lldp" onclick="lldpScan()">Start Scan</button>
+    <button id="start-lldp">Start Scan</button>
     <div id="loading-indicator" style="font-family: monospace; display: none">
       |
     </div>
@@ -21,6 +21,6 @@
       <p id="device-duplex">Duplex Mode:</p>
     </div>
 
-    <script src="/js/lldp.js"></script>
+    <script src="/js/lldp.js" type="module"></script>
   </body>
 </html>

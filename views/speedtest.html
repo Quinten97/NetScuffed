@@ -9,7 +9,7 @@
   </head>
   <body>
     <header><a href="/" id="backbutton">Back</a> Speedtest</header>
-    <button class="button" onclick="startSpeedTest()">Start Test</button>
+    <button class="button" id="start-speed">Start Test</button>
     <div id="loading-indicator" style="font-family: monospace; display: none">
       |
     </div>
@@ -37,6 +37,6 @@
       <p><strong>City/Region:</strong> <span id="location">--</span></p>
       <p><strong>Country:</strong> <span id="country">--</span></p>
     </div>
-    <script src="js/speedtest.js"></script>
+    <script src="js/speedtest.js" type="module"></script>
   </body>
 </html>

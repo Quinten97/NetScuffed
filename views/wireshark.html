@@ -9,7 +9,33 @@
   </head>
   <body>
     <header><a href="/" id="backbutton">Back</a> Wireshark</header>
-    <select id="usbDropdown"></select>
+    <div id="loading-indicator" style="font-family: monospace; display: none">
+      |
+    </div>
+    <form id="tsharkForm">
+      <label for="interface">Interface:</label>
+      <select id="interface"></select>
+
+      <label for="captureFilter">Capture Filter:</label>
+      <input type="text" id="captureFilter" placeholder="e.g., port 80" />
+
+      <label for="duration">Duration (seconds):</label>
+      <input type="number" id="duration" min="1" value="10" />
+
+      <label for="outputFormat">Output Format:</label>
+      <select id="outputFormat">
+        <option value="pcap">PCAP</option>
+        <option value="txt">TXT</option>
+      </select>
+
+      <label for="usbDropdown">Save to:</label>
+      <select id="usbDropdown">
+        <!-- filled with removable drives -->
+      </select>
+    </form>
+    <button type="submit" form="tsharkForm">Run TShark Scan</button>
     <script src="/js/getDrives.js"></script>
+    <script src="/js/getInterfaces.js"></script>
+    <script src="/js/wireshark.js" type="module"></script>
   </body>
 </html>

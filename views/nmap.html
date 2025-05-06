@@ -9,7 +9,29 @@
   </head>
   <body>
     <header><a href="/" id="backbutton">Back</a> Nmap</header>
-    <select id="usbDropdown"></select>
+    <div id="loading-indicator" style="font-family: monospace; display: none">
+      |
+    </div>
+    <form id="scanForm">
+      <input
+        type="text"
+        id="target"
+        placeholder="Target IP or Hostname"
+        required
+      />
+
+      <select id="scanType">
+        <option value="-sS">SYN Scan (-sS)</option>
+        <option value="-sU">UDP Scan (-sU)</option>
+        <option value="-sV">Version Detection (-sV)</option>
+      </select>
+
+      <input type="text" id="ports" placeholder="Ports (e.g., 80,443,1-100)" />
+
+      <select id="usbDropdown"></select>
+    </form>
+    <button type="submit" form="scanForm">Run Scan</button>
     <script src="/js/getDrives.js"></script>
+    <script src="/js/nmap.js" type="module"></script>
   </body>
 </html>

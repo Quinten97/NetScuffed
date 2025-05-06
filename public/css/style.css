@@ -28,6 +28,8 @@ header {
   place-items: center;
   background-color: var(--color-cambridge-blue);
   filter: drop-shadow(0px 5px 10px #6b6b6b);
+  user-select: none;
+  margin-bottom: 2rem;
 }
 
 footer {
@@ -76,4 +78,74 @@ footer {
   border-radius: 0.5rem;
   background-color: var(--color-mint-cream);
   font-size: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0.75rem;
+  margin: 2rem auto;
+}
+
+form label {
+  font-weight: bold;
+  color: var(--color-caput-mortuum);
+}
+
+form h2 {
+  text-align: center;
+  color: var(--color-caput-mortuum);
+}
+
+.select {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 1rem auto;
+  border: 2px solid var(--color-cambridge-blue);
+  border-radius: 8px;
+  background-color: #fff;
+  color: var(--color-caput-mortuum);
+  font-size: 1rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%2351291e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.25rem;
+  padding-right: 3rem;
+}
+
+.select:hover,
+.select:focus {
+  border-color: var(--color-celadon);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(171, 209, 181, 0.4);
+}
+
+input,
+select,
+textarea {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 2px solid var(--color-cambridge-blue);
+  border-radius: 8px;
+  background-color: #fff;
+  color: var(--color-black-bean);
+  width: 100%;
+}
+
+button {
+  margin: auto;
+  display: block;
+  width: 95%;
+  padding: 0.75rem;
+  background: var(--color-cambridge-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
 }

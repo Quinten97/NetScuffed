@@ -1,9 +1,11 @@
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const os = require("os");
 const { execFile } = require("child_process");
 const speedTest = require("speedtest-net");
 const drivelist = require("drivelist");
+const { spawn } = require("child_process");
 
 const app = express();
 const PORT = 3000;
@@ -192,9 +194,130 @@ app.get("/nmap", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "nmap.html"));
 });
 
+app.post("/run-nmap", (req, res) => {
+  console.log("starting nmap");
+  const { target, scanType, ports, outputPath } = req.body;
+
+  if (!target) {
+    return res.status(400).json({ error: "Missing target" });
+  }
+  if (!scanType) {
+    return res.status(400).json({ error: "Missing scan type" });
+  }
+  if (!outputPath) {
+    return res.status(400).json({ error: "No Removable Drive selected" });
+  }
+
+  const args = [scanType];
+  if (ports) args.push("-p", ports);
+  args.push(target);
+
+  execFile("nmap", args, (err, stdout, stderr) => {
+    if (err) {
+      console.error("Scan error:", err);
+      return res.status(500).json({ error: "Scan failed." });
+    }
+
+    const filePath = path.join(outputPath, `nmap-scan-${Date.now()}.txt`);
+
+    fs.writeFile(filePath, stdout, (writeErr) => {
+      if (writeErr) {
+        console.error("Write error:", writeErr);
+        return res.status(500).json({ error: "Failed to write to USB." });
+      }
+
+      res.json({ message: "Scan complete", file: filePath });
+    });
+  });
+});
+
 app.get("/wireshark", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "wireshark.html"));
 });
+
+app.post("/run-tshark", (req, res) => {
+  const { interface, captureFilter, duration, outputFormat, outputPath } =
+    req.body;
+  console.log(req.body);
+
+  if (!interface) return res.status(400).json({ error: "Missing interface" });
+  if (!duration || isNaN(duration))
+    return res.status(400).json({ error: "Invalid duration" });
+  if (!outputFormat)
+    return res.status(400).json({ error: "Missing output format" });
+  if (!outputPath)
+    return res.status(400).json({ error: "No Removable Drive selected" });
+
+  const timestamp = Date.now();
+  const filename = `tshark-capture-${timestamp}.${
+    outputFormat === "pcap" ? "pcap" : "txt"
+  }`;
+  const filePath = path.join(outputPath, filename);
+
+  // Build tshark args
+  const args = ["-i", interface, "-a", `duration:${duration}`];
+  if (captureFilter) args.push("-f", captureFilter);
+  if (outputFormat === "pcap") {
+    args.push("-w", filePath);
+  } else {
+    args.push("-V");
+  }
+
+  const tshark = spawn("tshark", args);
+
+  let output = "";
+  let error = "";
+
+  if (outputFormat === "txt") {
+    tshark.stdout.on("data", (data) => (output += data));
+  }
+
+  tshark.stderr.on("data", (data) => (error += data));
+
+  tshark.on("close", (code) => {
+    if (code !== 0) {
+      console.error("TShark error:", error);
+      return res.status(500).json({ error: "TShark failed to run." });
+    }
+
+    if (outputFormat === "txt") {
+      fs.writeFile(filePath, output, (err) => {
+        if (err) {
+          console.error("Write error:", err);
+          return res
+            .status(500)
+            .json({ error: "Failed to write capture to USB." });
+        }
+        res.json({ message: "Capture complete", file: filePath });
+      });
+    } else {
+      res.json({ message: "Capture complete", file: filePath });
+    }
+  });
+});
+
+app.get("/get-interfaces", (req, res) => {
+  execFile("tshark", ["-D"], (error, stdout, stderr) => {
+    if (error) {
+      console.error("Error listing interfaces:", stderr || error.message);
+      return res.status(500).json({ error: "Failed to list interfaces" });
+    }
+
+    const interfaces = stdout
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => {
+        const match = line.match(/^(\d+)\.\s+([^\s]+)\s+\((.+)\)/);
+        return match
+          ? { index: match[1], name: match[2], description: match[3] }
+          : null;
+      })
+      .filter(Boolean);
+
+    res.json({ interfaces });
+  });
+});
+
 // End Routes ------------------------------------------------------------------------------>
 
 app.listen(PORT, () => {

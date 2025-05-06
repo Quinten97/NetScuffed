@@ -1,20 +1,7 @@
-#start-lldp {
-  margin: 2rem auto;
-  display: block;
-  width: 95%;
-  padding: 0.75rem;
-  background: var(--color-cambridge-blue);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
 #lldp-container {
   display: grid;
   font-size: 3.5vw;
-  color: var(--);
+  margin-top: 2rem;
 }
 
 #lldp-container > p {
