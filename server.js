@@ -3,7 +3,7 @@ const path = require("path");
 const os = require("os");
 const { execFile } = require("child_process");
 const speedTest = require("speedtest-net");
-const { stat } = require("fs");
+const drivelist = require("drivelist");
 
 const app = express();
 const PORT = 3000;
@@ -166,6 +166,25 @@ app.get("/speedtest-result", async (req, res) => {
     });
   } catch (e) {
     res.status(500).json({ error: e.message });
+  }
+});
+
+app.get("/removable-drives", async (req, res) => {
+  try {
+    const drives = await drivelist.list();
+
+    const removableDrives = drives
+      .filter((drive) => drive.isRemovable && drive.mountpoints.length > 0)
+      .map((drive) => ({
+        device: drive.device,
+        description: drive.description,
+        mountpoints: drive.mountpoints,
+      }));
+
+    res.json(removableDrives);
+  } catch (err) {
+    console.error("Error listing drives:", err);
+    res.status(500).json({ error: "Failed to list removable drives" });
   }
 });
 

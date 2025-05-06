@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@cloudflare/speedtest": "^1.4.1",
+    "drivelist": "^12.0.2",
     "express": "^5.1.0",
     "speedtest-net": "^2.2.0"
   },
