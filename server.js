@@ -6,6 +6,7 @@ const { execFile } = require("child_process");
 const speedTest = require("speedtest-net");
 const drivelist = require("drivelist");
 const { spawn } = require("child_process");
+const wifi = require("node-wifi");
 
 const app = express();
 const PORT = 3000;
@@ -14,6 +15,11 @@ const devmode = true;
 // Serve static files from /public
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
+
+// Init node-wifi
+wifi.init({
+  iface: null, // auto-detect interface
+});
 
 //start kiosk-------------------------------------------------------------------------->
 const powershellPath =
@@ -316,6 +322,57 @@ app.get("/get-interfaces", (req, res) => {
 
     res.json({ interfaces });
   });
+});
+
+app.get("/settings", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "settings.html"));
+});
+
+app.get("/networks", async (req, res) => {
+  try {
+    const networks = await wifi.scan();
+    res.json(networks);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/connect-network", async (req, res) => {
+  const { ssid, password } = req.body;
+  try {
+    await wifi.connect({ ssid, password });
+    res.json({ success: true, message: `Connected to ${ssid}` });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+app.get("/current-network", async (req, res) => {
+  const scriptPath = path.join(__dirname, "./scripts/network-info.ps1");
+
+  execFile(
+    "powershell.exe",
+    ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", scriptPath],
+    (err, stdout, stderr) => {
+      if (err) {
+        console.error("PowerShell error:", err);
+        return res
+          .status(500)
+          .json({ error: "Failed to retrieve network info." });
+      }
+
+      try {
+        const data = JSON.parse(stdout);
+        res.json({ interfaces: data });
+      } catch (parseErr) {
+        console.error("JSON parse error:", parseErr);
+        console.error("Raw output:", stdout);
+        res
+          .status(500)
+          .json({ error: "Invalid output from PowerShell script." });
+      }
+    }
+  );
 });
 
 // End Routes ------------------------------------------------------------------------------>

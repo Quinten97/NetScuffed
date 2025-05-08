@@ -1,6 +1,6 @@
 #lldp-container {
   display: grid;
-  font-size: 3.5vw;
+  font-size: 1rem;
   margin-top: 2rem;
 }
 
@@ -14,4 +14,8 @@
 
 #lldp-container:last-child {
   border-bottom: 1px solid var(--color-cambridge-blue);
+}
+
+button {
+  margin-top: 2rem;
 }

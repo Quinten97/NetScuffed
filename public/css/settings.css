@@ -1,0 +1,35 @@
+h1 {
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--color-caput-mortuum);
+}
+
+.card {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  padding: 1rem;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card h2 {
+  font-size: 1.2rem;
+  color: var(--color-caput-mortuum);
+}
+
+.iface-info {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: var(--color-mint-cream);
+  border-radius: 8px;
+}
+
+.disabled {
+  color: var(--color-caput-mortuum);
+  opacity: 0.5;
+  pointer-events: none;
+}

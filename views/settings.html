@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/settings.css" />
+    <title>NetScuffed</title>
+  </head>
+  <body>
+    <header>
+      <a href="/" id="backbutton"
+        ><img src="/assets/backArrow.svg" alt="back navigation"
+      /></a>
+      Settings
+    </header>
+
+    <div class="card">
+      <h2>Connect to Wi-Fi</h2>
+      <label for="ssid">SSID</label>
+      <select id="ssid">
+        <option value="">Select Network</option>
+        <!-- Dynamic list here -->
+      </select>
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter password" />
+      <button id="connectBtn">Connect</button>
+    </div>
+
+    <div class="card">
+      <h2>Network Info</h2>
+      <div id="networkInfo">
+        <p><strong>IP Address:</strong> <span id="ip">--</span></p>
+        <p><strong>MAC Address:</strong> <span id="mac">--</span></p>
+        <p><strong>Netmask:</strong> <span id="netmask">--</span></p>
+        <p><strong>Gateway:</strong> <span id="gateway">--</span></p>
+      </div>
+      <button id="refreshInfoBtn">Refresh Info</button>
+    </div>
+
+    <script src="/js/settings.js"></script>
+  </body>
+</html>
