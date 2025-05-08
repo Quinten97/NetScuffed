@@ -1,131 +1,93 @@
 # NetScuffed
 
-A cross-platform network diagnostics tool that replicates NetScout functionality on any device.
+This project is a custom-built network diagnostics tool designed as a cost-effective alternative to other commercial networking devices. Originally built to run on a handheld Raspberry Pi (or similar) device, it also works seamlessly on Linux and Windows PCs.
 
-## Current Features and tasks
+## Table of Contents
 
-1. 🔍 LLDP Scan
-   Function: Discover neighboring devices using LLDP.
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
 
-UI Components:
+## Features
 
-Scan Button – initiates lldpctl or similar.
+### LLDP
 
-Results Table:
+This is the core feature I set out to replicate. I often found myself lugging around a laptop just to gather port information, and I wanted a lighter, more portable tool. This feature uses tshark to capture LLDP packets and parse the relevant information to the frontend, making it easy to identify switch ports and connected devices in the field.
+<br><br><br>
 
-Device Name / Hostname
+<p align="center">
+  <img src="images/lldp.png" alt="Screenshot" width="300"/>
+</p>
 
-Port ID
+### Wireless Scan
 
-System Name
+While this feature is easily replicated by most smartphones using available apps, it's included here for the sake of completeness and to support users building a dedicated handheld device.
+<br><br><br>
 
-Chassis ID
+<p align="center">
+  <img src="images/WifiScan.png" alt="Screenshot" width="300"/>
+</p>
 
-Capabilities
+### Ping/Trace
 
-Refresh Button
+A straightforward implementation that uses Bash or PowerShell (depending on the platform) to run standard ping and traceroute/tracert commands. The output is parsed and displayed in the frontend for quick diagnostics. Simple, but essential.
+<br><br><br>
 
-Export (JSON/CSV) – optional
+<p align="center">
+  <img src="images/ping.png" alt="Screenshot" width="300"/>
+</p>
 
-2. 🔌 Duplex & Link Speed Check
-   Function: Display link status and duplex info for interfaces.
+### Speedtest
 
-UI Components:
+This feature uses [Speedtest-Net](https://www.npmjs.com/package/speedtest-net) after experimenting with several alternatives. While it works reliably, a key limitation is that it always uses the system’s default network interface—there’s no built-in way to specify a particular interface like Ethernet or Wi-Fi.
 
-Interface Selector Dropdown
+To test a specific interface, I recommend manually disabling the one you don’t want to use. For example, disconnect Wi-Fi in the settings menu (or on your device's system settings if not running app in handheld mode) if you want the test to run over Ethernet, and vice versa.
+<br><br><br>
 
-Interface Info Panel:
+<p align="center">
+  <img src="images/speedtest.png" alt="Screenshot" width="300"/>
+</p>
 
-Interface Name (e.g., eth0)
+### Nmap
 
-Link Detected (yes/no)
+This tool allows you to run simple nmap scans against a target, host, or IP range (including CIDR notation) and exports the resulting scan data to a removable drive in a .txt file.
+<br><br><br>
 
-Speed (e.g., 1000Mb/s)
+<p align="center">
+  <img src="images/nmap.png" alt="Screenshot" width="300"/>
+</p>
 
-Duplex Mode (Full/Half)
+### Wireshark
 
-Refresh Button
+Similar to the Nmap scan feature, this tool uses tshark to capture network traffic and exports the data to a removable drive in either .txt or .pcap format. A capture duration must be specified to control how long the traffic is recorded.
+<br><br><br>
 
-Troubleshooting Tip Box – optional suggestions if duplex mismatch is found
+<p align="center">
+  <img src="images/shark.png" alt="Screenshot" width="300"/>
+</p>
 
-3. 📶 Wireless Network Scanner
-   Function: Scan for nearby Wi-Fi access points.
+<br>
+<br>
+<br>
 
-UI Components:
+Some features are simplified compared to their full professional counterparts, but the app delivers a powerful and flexible toolkit for fieldwork or lab diagnostics without the enterprise price tag. This feature works by using bash/powershell to obtain relavent wifi data.
 
-Scan Button
+## Installation
 
-AP List Table/Grid:
+```bash
+# Example installation steps
+git clone https://github.com/yourusername/yourproject.git
+cd yourproject
+npm install
+```
 
-SSID
+## Usage
 
-Signal Strength (with bar icons or dBm)
+```
+npm start
+```
 
-Channel
+## Contributing
 
-Encryption Type
-
-MAC Address
-
-Sort/Filter by Signal/Channel
-
-Refresh Button
-
-(Use nmcli dev wifi list or iwlist for backend)
-
-4. 📡 Ping & Traceroute Tool
-   Function: Basic network connectivity testing.
-
-UI Components:
-
-Target Input Field
-
-Ping Results Panel:
-
-Response time
-
-Packet loss
-
-TTL
-
-Traceroute Panel:
-
-Hop count
-
-IPs & Hostnames
-
-RTT per hop
-
-Run Button
-
-Clear Results Button
-
-5. 🚀 Speed Test
-   Function: Measure upload/download speed and latency.
-
-UI Components:
-
-Start Test Button
-
-Speedometer-style Meters or Basic Stats:
-
-Download Mbps
-
-Upload Mbps
-
-Ping (ms)
-
-Progress Spinner or Loader
-
-Server Location Info – optional
-
-(Use speedtest-cli or librespeed backend)
-
-🗂️ Other Shared Components
-Sidebar or Tab Nav
-
-Logs/Output Console (optional for nerdy details)
-
-Theme Toggle (dark/light mode – devs love this)
-
-Settings Page (Future) – set scan intervals, interface preferences, etc.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
