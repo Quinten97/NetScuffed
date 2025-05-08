@@ -347,6 +347,18 @@ app.post("/connect-network", async (req, res) => {
   }
 });
 
+app.post("/disconnect-wifi", (req, res) => {
+  wifi.disconnect((error) => {
+    if (error) {
+      console.error("Wi-Fi disconnect error:", error);
+      return res.status(500).json({ message: "Failed to disconnect Wi-Fi." });
+    } else {
+      console.log("Wi-Fi disconnected.");
+      return res.json({ message: "Wi-Fi disconnected successfully." });
+    }
+  });
+});
+
 app.get("/current-network", async (req, res) => {
   const scriptPath = path.join(__dirname, "./scripts/network-info.ps1");
 

@@ -40,9 +40,7 @@ A straightforward implementation that uses Bash or PowerShell (depending on the 
 
 ### Speedtest
 
-This feature uses [Speedtest-Net](https://www.npmjs.com/package/speedtest-net) after experimenting with several alternatives. While it works reliably, a key limitation is that it always uses the system’s default network interface—there’s no built-in way to specify a particular interface like Ethernet or Wi-Fi.
-
-To test a specific interface, I recommend manually disabling the one you don’t want to use. For example, disconnect Wi-Fi in the settings menu (or on your device's system settings if not running app in handheld mode) if you want the test to run over Ethernet, and vice versa.
+This feature uses [Speedtest-Net](https://www.npmjs.com/package/speedtest-net) after experimenting with several alternatives. While it works reliably, a key limitation is that it always uses the system’s default network interface—there’s no built-in way to specify a particular interface. TYPICALLY Ethernet will take precedent over wifi but if you find yourself struggling to test the intended interface you can disconnect from the wifi network either natively on your device or in the settings menu of the app.
 <br><br><br>
 
 <p align="center">

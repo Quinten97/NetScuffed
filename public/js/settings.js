@@ -88,6 +88,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial load
   loadNetworks();
-  setInterval(loadNetworks, 5000); // Refresh networks every minute
   loadCurrentConnection();
 });
+
+document
+  .getElementById("disconnectWifiBtn")
+  .addEventListener("click", async () => {
+    if (confirm("Are you sure you want to disconnect from Wi-Fi?")) {
+      try {
+        const res = await fetch("/disconnect-wifi", {
+          method: "POST",
+        });
+        const data = await res.json();
+        alert(data.message || "Wi-Fi disconnected");
+      } catch (err) {
+        alert("Failed to disconnect Wi-Fi.");
+        console.error(err);
+      }
+    }
+  });
