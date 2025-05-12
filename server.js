@@ -135,7 +135,7 @@ app.post("/network-check", (req, res) => {
 
   execFile(
     isWindows ? "powershell.exe" : "bash",
-    [scriptPath, ...args],
+    ["-File", scriptPath, ...args],
     (error, stdout, stderr) => {
       if (error) {
         console.error(`Execution error: ${error}`);
