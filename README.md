@@ -8,6 +8,7 @@ This project is a custom-built network diagnostics tool designed as a cost-effec
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [Currently Working On](#currently-working-on)
 
 ## Features
 
@@ -73,12 +74,11 @@ Some features are simplified compared to their full professional counterparts, b
 
 ## Installation
 
-```bash
-# Example installation steps
-git clone https://github.com/yourusername/yourproject.git
-cd yourproject
-npm install
-```
+1. Install node version 20.15.1 WITH NATIVE BUILD TOOLS
+2. Install wireshark(tshark) and nmap
+3. Clone repository to your device
+4. Navigate to saved directory
+5. run `npm install`
 
 ## Usage
 
@@ -86,6 +86,18 @@ npm install
 npm start
 ```
 
+Then open your browser of choice and navigate to http://localhost:3000
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## Currently Working on
+
+1. Creating 1:1 scripts in bash to mirror the powershell scripts currently being used.
+
+2. Better speedtest, current implementation requres and older version of node in order to use node-speedtest. Looking to replace this route completely with an updated solution.
+
+3. Easy install scripts for use on "kiosk devices".
+
+4. on screen keyboard for kiosk devices.

@@ -45,6 +45,27 @@ $nodeTaskTrigger = New-ScheduledTaskTrigger -AtLogOn
 $nodeTaskPrincipal = New-ScheduledTaskPrincipal -UserId "$env:USERNAME" -LogonType Interactive
 Register-ScheduledTask -TaskName "StartNodeKioskApp" -Action $nodeTaskAction -Trigger $nodeTaskTrigger -Principal $nodeTaskPrincipal -Description "Start Node.js Kiosk App on login" -Force
 
+# Create Kiosk User if not exists
+$kioskUser = "kiosk"  # The username of your kiosk account
+$kioskPassword = "yourPassword"  # The password of the kiosk account (consider encryption for security)
+
+# Check if the kiosk user already exists
+$userExists = Get-LocalUser -Name $kioskUser -ErrorAction SilentlyContinue
+if ($null -eq $userExists) {
+    Write-Output "`n==== Creating Kiosk User...`n"
+    # Create the kiosk user
+    New-LocalUser -Name $kioskUser -Password (ConvertTo-SecureString $kioskPassword -AsPlainText -Force) -FullName "Kiosk User" -Description "User account for Kiosk mode"
+    Add-LocalGroupMember -Group "Users" -Member $kioskUser
+}
+
+# Set Auto Login for the Kiosk User
+Write-Output "`n==== Configuring Auto-Login...`n"
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'AutoAdminLogon' -Value '1'
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'DefaultUsername' -Value $kioskUser
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'DefaultPassword' -Value $kioskPassword
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'DefaultDomainName' -Value 'YourComputerName'
+
+# Replace Explorer Shell with PowerShell Kiosk Script
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'Shell' -Value 'powershell.exe -NoLogo -WindowStyle Hidden -Command C:\\kiosk-app\\launch.ps1'
 
 Write-Output "`n✅ Setup complete! Reboot the system to test kiosk mode.`n"
