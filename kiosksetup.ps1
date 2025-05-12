@@ -15,6 +15,8 @@ if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
 Write-Output "`n==== Installing Dependencies...`n"
 choco install -y git
 choco install -y nodejs --version=20.15.1
+Write-Output "`n==== Installing native build tools for Node.js...`n"
+choco install -y visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --quiet"
 choco install -y wireshark --params "/NoWinPcap"
 choco install -y nmap
 choco install -y chromium
@@ -37,19 +39,12 @@ npm install
 
 # Schedule Task: Start Node.js Server
 Write-Output "`n==== Creating Task to Launch Node.js Server on Login...`n"
-$nodeScriptPath = Join-Path $targetPath "index.js"  # Update if your entry file is different
+$nodeScriptPath = Join-Path $targetPath "server.js"  # Update if your entry file is different
 $nodeTaskAction = New-ScheduledTaskAction -Execute "node.exe" -Argument "`"$nodeScriptPath`""
 $nodeTaskTrigger = New-ScheduledTaskTrigger -AtLogOn
 $nodeTaskPrincipal = New-ScheduledTaskPrincipal -UserId "$env:USERNAME" -LogonType Interactive
 Register-ScheduledTask -TaskName "StartNodeKioskApp" -Action $nodeTaskAction -Trigger $nodeTaskTrigger -Principal $nodeTaskPrincipal -Description "Start Node.js Kiosk App on login" -Force
 
-# Schedule Task: Launch Chromium Kiosk
-Write-Output "`n==== Creating Task to Launch Chromium in Kiosk Mode...`n"
-$kioskUrl = "http://localhost:3000"
-$kioskArgs = "--kiosk $kioskUrl"
-$chromeTaskAction = New-ScheduledTaskAction -Execute $chromiumPath -Argument $kioskArgs
-$chromeTaskTrigger = New-ScheduledTaskTrigger -AtLogOn
-$chromeTaskPrincipal = New-ScheduledTaskPrincipal -UserId "$env:USERNAME" -LogonType Interactive
-Register-ScheduledTask -TaskName "LaunchKioskBrowser" -Action $chromeTaskAction -Trigger $chromeTaskTrigger -Principal $chromeTaskPrincipal -Description "Launch Chromium in kiosk mode on login" -Force
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'Shell' -Value 'powershell.exe -NoLogo -WindowStyle Hidden -Command C:\\kiosk-app\\launch.ps1'
 
 Write-Output "`n✅ Setup complete! Reboot the system to test kiosk mode.`n"
