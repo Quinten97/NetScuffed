@@ -18,7 +18,7 @@ This is the core feature I set out to replicate. I often found myself lugging ar
 <br><br><br>
 
 <p align="center">
-  <img src="images/lldp.png" alt="Screenshot" width="300"/>
+  <img src="images/LLDP.png" alt="Screenshot" width="300"/>
 </p>
 
 ### Wireless Scan
